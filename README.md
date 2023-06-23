@@ -6,11 +6,11 @@ Although the device is currently simple in nature, it holds the potential for fu
 
 ## Device
 
-To more information about the device, access [this](repo/blob/master/device/README.md).
+To more information about the device, access [this](device/README.md).
 
 ## Device console
 
-For more information about the device's console, access [this](repo/blob/master/web/README.md).
+For more information about the device's console, access [this](web/README.md).
 
 
 
