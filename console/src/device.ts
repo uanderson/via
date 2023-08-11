@@ -12,7 +12,7 @@ export class Device extends LitElement {
     :host {
       display: block;
     }
-    
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -81,7 +81,7 @@ export class Device extends LitElement {
 
   @property({ type: Object })
   status: Status = {
-    wifiConnected: true
+    wifiConnected: true,
   };
 
   @property({ type: Boolean })
@@ -97,13 +97,15 @@ export class Device extends LitElement {
     const response = await fetch('/api/scan');
     const data = await response.json();
 
-    this.availableSsids = data.reduce((arr: string[], current: string) => {
-      if (!arr.includes(current)) {
-        arr.push(current);
-      }
+    this.availableSsids = data
+      .reduce((arr: string[], current: string) => {
+        if (!arr.includes(current)) {
+          arr.push(current);
+        }
 
-      return arr;
-    }, []).sort();
+        return arr;
+      }, [])
+      .sort();
   }
 
   async fetchStatus() {
@@ -144,16 +146,16 @@ export class Device extends LitElement {
     return html`
       <div class="container">
         ${this.status.wifiConnected && !this.editMode
-            ? html`${this.renderStatus()}`
-            : html`${this.renderWifiForm()}`}
+          ? html`${this.renderStatus()}`
+          : html`${this.renderWifiForm()}`}
       </div>
     `;
   }
 
   renderStatus() {
     return html`
-      <p> 🟢 Connected to ${this.status.wifiSsid}</p>
-      <button @click=${() => this.editMode = true}>Alterar</button>
+      <p>🟢 Connected to ${this.status.wifiSsid}</p>
+      <button @click=${() => (this.editMode = true)}>Alterar</button>
     `;
   }
 
@@ -162,26 +164,25 @@ export class Device extends LitElement {
       <form @submit=${this.handleSubmit}>
         <label for="ssid-select">Select SSID:</label>
         <select
-            id="ssid-select"
-            .value=${this.selectedSsid}
-            ?disabled=${this.disabled}
-            @input=${(e: InputEvent) =>
-                (this.selectedSsid = (e.target as HTMLSelectElement).value)}
+          id="ssid-select"
+          .value=${this.selectedSsid}
+          ?disabled=${this.disabled}
+          @input=${(e: InputEvent) =>
+            (this.selectedSsid = (e.target as HTMLSelectElement).value)}
         >
           ${this.availableSsids?.map(
-              (ssid: string) => html`
-                <option value=${ssid}>${ssid}</option>`
+            (ssid: string) => html` <option value=${ssid}>${ssid}</option>`
           )}
         </select>
 
         <label for="password-input">Senha:</label>
         <input
-            id="password-input"
-            type="password"
-            .value=${this.password}
-            ?disabled=${this.disabled}
-            @input=${(e: InputEvent) =>
-                (this.password = (e.target as HTMLInputElement).value)}
+          id="password-input"
+          type="password"
+          .value=${this.password}
+          ?disabled=${this.disabled}
+          @input=${(e: InputEvent) =>
+            (this.password = (e.target as HTMLInputElement).value)}
         />
 
         <button id="connect-btn" type="submit" ?disabled=${this.disabled}>
