@@ -21,3 +21,5 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 .env
 .pio/
+
+mock/db.json
